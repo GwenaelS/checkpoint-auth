@@ -1,0 +1,11 @@
+CREATE DATABASE IF NOT EXISTS checkpoint_auth;
+
+USE checkpoint_auth;
+
+CREATE TABLE user(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE,
+    firstname VARCHAR(255),
+    lastname VARCHAR(255),
+    password VARCHAR(1028)
+) ENGINE = INNODB;
