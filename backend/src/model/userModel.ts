@@ -7,7 +7,7 @@ export default class userModel {
     static async getAllUsers () {
         // Essaie de...
         try {
-            const rows = await db.query("select * from users");
+            const [rows] = await db.query("select * from user");
             return rows;
         } 
         // Sinon...
@@ -33,7 +33,7 @@ export default class userModel {
     // Méthode qui crée un nouvel utilisateur
     static async createUser (user : IUser) {
         try {
-            const rows = await db.query("insert into user (email, firstname, lastname, password) values (?,?,?,?)", 
+            const [rows] = await db.query("insert into user (email, firstname, lastname, password) values (?,?,?,?)", 
                 [user.email, user.firstname, user.lastname, user.password]);
             return rows;
         } 

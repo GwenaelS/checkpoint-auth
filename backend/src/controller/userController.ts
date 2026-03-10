@@ -9,7 +9,9 @@ export default class userController {
     static async getAll (req: Request, res: Response) {
         // Essaie de...
         try {
-            const result = await userModel.getAllUsers() as IUser[]; // Tableau IUser => 
+            const result = await userModel.getAllUsers() as IUser[]; 
+            console.log('Get All Users :>> ', result);
+                // Tableau IUser => 
                 // récupère plusieurs users (tableau d'objets result qui respecte la structure IUser)
             return res.status(200).json({message: "Action getAllUsers reussi", result});
         }
@@ -29,14 +31,13 @@ export default class userController {
     //         if(!req.body){
     //             return res.status(400).json({message: "Saisis manquantes"});
     //         }
-            
-    //         const doesEmailExist = await userModel.getUserByEmail(req.body.email);
+    //         const doesUserExist = await userModel.getUserByEmail(req.body.email);
 
-    //         if(doesEmailExist && Object.keys(doesEmailExist).length !== 0){
-    //             console.log('l\'email est déja utilisé', doesEmailExist);
-    //             return res.status(200).json({message: "Action getByEmail reussi", doesEmailExist})
+    //         if(doesUserExist && Object.keys(doesUserExist).length !== 0){
+    //             console.log('l\'email est déja utilisé', doesUserExist);
+    //             return res.status(200).json({message: "Action getByEmail reussi", doesUserExist})
     //         } else {
-    //             console.log('l\'email n\'est pas déja utilisé', doesEmailExist);
+    //             console.log('l\'email n\'est pas déja utilisé', doesUserExist);
     //             return res.status(500).json({message: "Action getByEmail fail"})
     //         }
     //     }
@@ -52,15 +53,14 @@ export default class userController {
                 return res.status(400).json({message: "Action create non compléter"});
             }
 
-            const doesEmailExist = await userModel.getUserByEmail(req.body.email);
-            if(doesEmailExist && Object.keys(doesEmailExist).length !== 0){
-                return res.status(400).json({message: 'l\'email est déja utilisé', doesEmailExist})
+            const doesUserExist = await userModel.getUserByEmail(req.body.email);
+            if(doesUserExist && Object.keys(doesUserExist).length !== 0){
+                return res.status(400).json({message: 'l\'email est déja utilisé', doesUserExist})
             } else {
                 const hashedPassword = await argon2.hash(req.body.password);
                 const user = {
                     ...req.body, password: hashedPassword,
                 } as IUser;
-
                 const result = await userModel.createUser(user);
                 return res.status(201).json({message: "Action create reussi"})
             }
